@@ -1,5 +1,6 @@
 # When using NeuroWeave, please give credit.
-
+# https://github.com/42-AH/NeuroWeave
+# https://scratch.mit.edu/projects/880712874/
 
 import math
 import random
@@ -77,11 +78,27 @@ inputs[0] = random.uniform(0.0, 0.5)
 inputs[1] = random.uniform(0.0, 0.5)
 actual = inputs[0] + inputs[1]
 
-while True:
+print("Notice, this will overfit. It has 5 layers, which is way too complex for simple decimal addition.")
+
+iterations = int(input("Iterations: "))
+current = 0
+while current < iterations:
     forwardpropagate()
     print(backpropagate())
-    if abs(actual - outputs[0]) < 0.0001:
+    if abs(actual - outputs[0]) < 0.001:
       inputs[0] = random.uniform(0.0, 0.5)
       inputs[1] = random.uniform(0.0, 0.5)
       actual = inputs[0] + inputs[1]
-      print("One done")
+      current += 1
+num1 = -1
+num2 = -1
+while not 0 <= num1 <= 1:
+  num1 = float(input("Number 1 (0.0-0.5)"))
+while not 0 <= num2 <= 1:
+  num2 = float(input("Number 2 (0.0-0.5)"))
+actual = num1 + num2
+inputs[0] = num1
+inputs[1] = num2
+forwardpropagate()
+print("AI: " + str(outputs[0]))
+print("Error: " + str(outputs[0] - actual))
