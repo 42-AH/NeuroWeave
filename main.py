@@ -72,7 +72,7 @@ def backpropagate():
 
     return error
 
-make_nn(2, 3, 4, 3, 1)
+make_nn(2, 2, 3, 2, 1)
 
 inputs[0] = random.uniform(0.0, 0.5)
 inputs[1] = random.uniform(0.0, 0.5)
@@ -93,9 +93,9 @@ while current < iterations:
 num1 = -1
 num2 = -1
 while not 0 <= num1 <= 1:
-  num1 = float(input("Number 1 (0.0-0.5)"))
+  num1 = float(input("Number 1 (0.0-0.5): "))
 while not 0 <= num2 <= 1:
-  num2 = float(input("Number 2 (0.0-0.5)"))
+  num2 = float(input("Number 2 (0.0-0.5): "))
 actual = num1 + num2
 inputs[0] = num1
 inputs[1] = num2
