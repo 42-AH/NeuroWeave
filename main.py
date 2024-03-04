@@ -1,6 +1,6 @@
 # When using NeuroWeave, please give credit.
-# https://github.com/42-AH/NeuroWeave
-# https://scratch.mit.edu/projects/880712874/
+# https://replit.com/@42AH/NeuroWeave
+
 
 import math
 import random
@@ -78,7 +78,7 @@ inputs[0] = random.uniform(0.0, 0.5)
 inputs[1] = random.uniform(0.0, 0.5)
 actual = inputs[0] + inputs[1]
 
-print("Notice, this will overfit. It has 5 layers, which is way too complex for simple decimal addition.")
+print("Notice, this will overfit. It has 5 layers, which is overkill for simple decimal addition.")
 
 iterations = int(input("Iterations: "))
 current = 0
