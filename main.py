@@ -30,16 +30,16 @@ def make_nn(input_size, hidden_size, hidden2_size, hidden3_size, output_size):
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
 
-def forwardpropagate():
+def forwardpropagate(dropout_prob):
     for i in range(len(hiddens1)):
         hiddens1[i] = sigmoid(sum(inputs[i2] * weight1[i * len(inputs) + i2] for i2 in range(len(inputs))) + bias1[i])
-
+        hiddens1[i] = hiddens1[i] * (random.random() < dropout_prob)
     for i in range(len(hiddens2)):
         hiddens2[i] = sigmoid(sum(hiddens1[i2] * weight2[i * len(hiddens1) + i2] for i2 in range(len(hiddens1))) + bias2[i])
-
+        hiddens2[i] = hiddens2[i] * (random.random() < dropout_prob)
     for i in range(len(hiddens3)):
         hiddens3[i] = sigmoid(sum(hiddens2[i2] * weight3[i * len(hiddens2) + i2] for i2 in range(len(hiddens2))) + bias3[i])
-
+        hiddens3[i] = hiddens3[i] * (random.random() < dropout_prob)
     for i in range(len(outputs)):
         outputs[i] = sigmoid(sum(hiddens3[i2] * weight4[i * len(hiddens3) + i2] for i2 in range(len(hiddens3))) + bias4[i])
 
@@ -83,7 +83,7 @@ print("(This will overfit, it has 5 layers which is overkill for decimal additio
 iterations = int(input("Iterations: "))
 current = 0
 while current < iterations:
-    forwardpropagate()
+    forwardpropagate(0.025)
     print(backpropagate())
     if abs(actual - outputs[0]) < 0.001:
       inputs[0] = random.uniform(0.0, 0.5)
@@ -99,6 +99,6 @@ while not 0 <= num2 <= 1:
 actual = num1 + num2
 inputs[0] = num1
 inputs[1] = num2
-forwardpropagate()
+forwardpropagate(-1)
 print("AI: " + str(outputs[0]))
 print("Error: " + str(outputs[0] - actual))
