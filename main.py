@@ -29,6 +29,10 @@ def make_nn(input_size, hidden_size, hidden2_size, hidden3_size, output_size):
 
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
+  
+def linear(x):
+    return x
+
 
 def forwardpropagate(dropout_prob):
     for i in range(len(hiddens1)):
@@ -41,9 +45,9 @@ def forwardpropagate(dropout_prob):
         hiddens3[i] = sigmoid(sum(hiddens2[i2] * weight3[i * len(hiddens2) + i2] for i2 in range(len(hiddens2))) + bias3[i])
         hiddens3[i] = hiddens3[i] * (random.random() < dropout_prob)
     for i in range(len(outputs)):
-        outputs[i] = sigmoid(sum(hiddens3[i2] * weight4[i * len(hiddens3) + i2] for i2 in range(len(hiddens3))) + bias4[i])
+        outputs[i] = linear(sum(hiddens3[i2] * weight4[i * len(hiddens3) + i2] for i2 in range(len(hiddens3))) + bias4[i])
 
-def backpropagate():
+def backpropagate(clip_val, learning_rate):
     global actual
     global error
     global bias1, bias2, bias3, bias4
@@ -54,7 +58,13 @@ def backpropagate():
     gradient2 = [sum(gradient3[i2] * weight3[i * len(hiddens3) + i2] * hiddens2[i] * (1 - hiddens2[i]) for i2 in range(len(hiddens3))) for i in range(len(hiddens2))]
     gradient1 = [sum(gradient2[i2] * weight2[i * len(hiddens2) + i2] * hiddens1[i] * (1 - hiddens1[i]) for i2 in range(len(hiddens2))) for i in range(len(hiddens1))]
 
-    learning_rate = 0.1
+   
+    gradient1 = [min(max(gradient, -clip_val), clip_val) for gradient in gradient1]
+    gradient2 = [min(max(gradient, -clip_val), clip_val) for gradient in gradient2]
+    gradient3 = [min(max(gradient, -clip_val), clip_val) for gradient in gradient3]
+    gradient4 = min(max(gradient4, -clip_val), clip_val)
+  
+    
 
     for i in range(len(weight1)):
         weight1[i] -= learning_rate * gradient1[i % len(hiddens1)] * inputs[i // len(hiddens1)]
@@ -82,7 +92,7 @@ iterations = int(input("Iterations: "))
 current = 0
 while current < iterations:
     forwardpropagate(0.025)
-    print(backpropagate())
+    print(backpropagate(1.0, 0.01))
     if abs(actual - outputs[0]) < 0.001:
       inputs[0] = random.uniform(0.0, 0.5)
       inputs[1] = random.uniform(0.0, 0.5)
