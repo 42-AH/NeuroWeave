@@ -17,10 +17,10 @@ def make_nn(input_size, hidden_size, hidden2_size, hidden3_size, output_size):
     hiddens3 = [0] * hidden3_size
     outputs = [0] * output_size
 
-    weight1 = [random.random() for _ in range(input_size * hidden_size)]
-    weight2 = [random.random() for _ in range(hidden_size * hidden2_size)]
-    weight3 = [random.random() for _ in range(hidden2_size * hidden3_size)]
-    weight4 = [random.random() for _ in range(hidden3_size * output_size)]
+    weight1 = [2 / (input_size + hidden_size) for _ in range(input_size * hidden_size)]
+    weight2 = [2 / (hidden_size + hidden2_size) for _ in range(hidden_size * hidden2_size)]
+    weight3 = [2 / (hidden2_size + hidden3_size) for _ in range(hidden2_size * hidden3_size)]
+    weight4 = [2 / (hidden3_size + output_size) for _ in range(hidden3_size * output_size)]
 
     bias1 = [random.random() for _ in range(hidden_size)]
     bias2 = [random.random() for _ in range(hidden2_size)]
@@ -91,8 +91,8 @@ actual = inputs[0] + inputs[1]
 iterations = int(input("Iterations: "))
 current = 0
 while current < iterations:
-    forwardpropagate(0.025)
-    print(backpropagate(1.0, 0.01))
+    forwardpropagate(0)
+    print(backpropagate(2.0, 0.01))
     if abs(actual - outputs[0]) < 0.001:
       inputs[0] = random.uniform(0.0, 0.5)
       inputs[1] = random.uniform(0.0, 0.5)
