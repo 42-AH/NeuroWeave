@@ -47,7 +47,7 @@ def backpropagate():
     global actual
     global error
     global bias1, bias2, bias3, bias4
-  
+
     error = actual - outputs[0]
     gradient4 = -2 * error * outputs[0] * (1 - outputs[0])
     gradient3 = [gradient4 * weight4[i] * hiddens3[i] * (1 - hiddens3[i]) for i in range(len(hiddens3))]
@@ -78,7 +78,7 @@ inputs[0] = random.uniform(0.0, 0.5)
 inputs[1] = random.uniform(0.0, 0.5)
 actual = inputs[0] + inputs[1]
 
-print("Notice, this will overfit. It has 5 layers, which is overkill for simple decimal addition.")
+print("(This will overfit, it has 5 layers which is overkill for decimal addition)")
 
 iterations = int(input("Iterations: "))
 current = 0
