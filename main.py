@@ -78,8 +78,6 @@ inputs[0] = random.uniform(0.0, 0.5)
 inputs[1] = random.uniform(0.0, 0.5)
 actual = inputs[0] + inputs[1]
 
-print("(This will overfit, it has 5 layers which is overkill for decimal addition)")
-
 iterations = int(input("Iterations: "))
 current = 0
 while current < iterations:
